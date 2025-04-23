@@ -1,6 +1,10 @@
 # Usage:
 Install dependencies
-`npm install`
+```
+npm install
+```
 
 Run (dev mode)
-`npm run dev`
+```
+npm run dev
+```
