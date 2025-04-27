@@ -80,12 +80,6 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">24,685</div>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-emerald-500 flex items-center gap-1">
-                  <ArrowUpIcon className="h-3 w-3" /> +5.2%
-                </span>{" "}
-                vs previous period
-              </p>
             </CardContent>
           </Card>
           <Card>
@@ -94,13 +88,7 @@ export default function Dashboard() {
               <LineChart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">42 mph</div>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-red-500 flex items-center gap-1">
-                  <ArrowDownIcon className="h-3 w-3" /> -2.1%
-                </span>{" "}
-                vs previous period
-              </p>
+              <div className="text-2xl font-bold">42 km/h</div>
             </CardContent>
           </Card>
           <Card>
@@ -125,12 +113,6 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">68%</div>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-red-500 flex items-center gap-1">
-                  <ArrowUpIcon className="h-3 w-3" /> +5%
-                </span>{" "}
-                vs previous period
-              </p>
             </CardContent>
           </Card>
         </div>
@@ -200,9 +182,9 @@ export default function Dashboard() {
                       >
                         <td className="p-4 align-middle">{row.period}</td>
                         <td className="p-4 align-middle">{row.carsDetected.toLocaleString()}</td>
-                        <td className="p-4 align-middle">{row.avgSpeed} mph</td>
+                        <td className="p-4 align-middle">{row.avgSpeed} km/h</td>
                         <td className="p-4 align-middle">{row.peakVolume.toLocaleString()}</td>
-                        <td className="p-4 align-middle">{row.lowestSpeed} mph</td>
+                        <td className="p-4 align-middle">{row.lowestSpeed} km/h</td>
                       </tr>
                     ))}
                   </tbody>
