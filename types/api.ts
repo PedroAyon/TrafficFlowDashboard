@@ -42,7 +42,7 @@ export interface TrafficRecord {
    */
   export interface CongestionResponse {
     congestion_percentage: number;
-    status: string; // e.g., "congestionado", "fluido", "sin datos"
+    status: string; // e.g., "congested", "fluid", "no data"
   }
   
   /**

@@ -174,5 +174,4 @@ import {
       });
     },
   
-    // Add methods for other endpoints if needed (e.g., POST for adding records if you expose that)
   };

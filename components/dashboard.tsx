@@ -46,26 +46,7 @@ import {
   // Add other necessary types if needed
 } from "@/types/api"; // Import API types
 import type { DateRange } from "react-day-picker";
-
-// Helper to format date string (e.g., from '2024-04-27T10:30:00Z' to 'Apr 27, 10:30')
-function formatDisplayDateTime(dateString: string | undefined): string {
-    if (!dateString) return 'N/A';
-    try {
-        const date = new Date(dateString);
-        // Use UTC methods or specify 'UTC' timezone if the API returns UTC
-        // Otherwise, toLocaleTimeString converts to local time zone
-        return date.toLocaleTimeString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false // Use 24-hour format for clarity
-        });
-    } catch (e) {
-        return dateString; // Return original if parsing fails
-    }
-}
-
+import { formatDisplayDateTime } from "@/lib/utils";
 
 export default function Dashboard() {
   // --- State ---
@@ -111,8 +92,7 @@ export default function Dashboard() {
 
 
     try {
-      // TODO: Make traffic_cam_id dynamic (e.g., from search/filter or user settings)
-      const defaultTrafficCamId = null; 
+      const defaultTrafficCamId = null;
 
       // Fetch all data concurrently
       const [
@@ -146,10 +126,10 @@ export default function Dashboard() {
          const records = recordsResult.traffic_records;
          // sort records by alias as primary and then by start_datetime as secondary
          const sortedRecords = records.sort((a, b) => a.alias.localeCompare(b.alias) ||
-          new Date(a.start_datetime).getTime() - new Date(b.start_datetime).getTime());
+          new Date(b.start_datetime).getTime() - new Date(a.start_datetime).getTime());
          setTrafficRecords(sortedRecords);
          // Process records for the chart
-         console.log("records", records);
+
          const processedChartData = records
             .map(record => ({
                 // Format the start_datetime for the X-axis label

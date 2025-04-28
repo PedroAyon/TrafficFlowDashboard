@@ -1,7 +1,7 @@
 # Usage:
 Install dependencies
 ```
-npm install
+npm install --force
 ```
 
 Run (dev mode)
