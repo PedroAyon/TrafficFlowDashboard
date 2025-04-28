@@ -7,8 +7,9 @@
 export interface TrafficRecord {
     id: number;
     traffic_cam_id: number;
-    start_time: string; // ISO date string format expected from server (or YYYY-MM-DD HH:MM:SS)
-    end_time: string;   // ISO date string format expected from server (or YYYY-MM-DD HH:MM:SS)
+    alias: string;
+    start_datetime: string; // ISO date string format expected from server (or YYYY-MM-DD HH:MM:SS)
+    end_datetime: string;   // ISO date string format expected from server (or YYYY-MM-DD HH:MM:SS)
     vehicle_count: number;
     average_speed: number; // km/h
   }
@@ -90,7 +91,7 @@ export interface TrafficRecord {
    * Represents query parameters for the /congestion endpoint.
    */
   export interface CongestionParams {
-      trafficCamId: number; // Use camelCase in TS, will be converted to snake_case for API
+      trafficCamId: number | null; // Use camelCase in TS, will be converted to snake_case for API
       startDateTime?: Date;
       endDateTime?: Date;
       speedThreshold?: number;

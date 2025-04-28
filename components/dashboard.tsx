@@ -112,7 +112,7 @@ export default function Dashboard() {
 
     try {
       // TODO: Make traffic_cam_id dynamic (e.g., from search/filter or user settings)
-      const defaultTrafficCamId = 1; // Example ID
+      const defaultTrafficCamId = null; 
 
       // Fetch all data concurrently
       const [
@@ -144,22 +144,22 @@ export default function Dashboard() {
          setChartData([]);
       } else {
          const records = recordsResult.traffic_records;
-         setTrafficRecords(records);
+         // sort records by alias as primary and then by start_datetime as secondary
+         const sortedRecords = records.sort((a, b) => a.alias.localeCompare(b.alias) ||
+          new Date(a.start_datetime).getTime() - new Date(b.start_datetime).getTime());
+         setTrafficRecords(sortedRecords);
          // Process records for the chart
+         console.log("records", records);
          const processedChartData = records
             .map(record => ({
-                // Format the start_time for the X-axis label
-                name: formatDisplayDateTime(record.start_time),
+                // Format the start_datetime for the X-axis label
+                name: formatDisplayDateTime(record.start_datetime),
                 volume: record.vehicle_count,
                 speed: record.average_speed,
                 // Store original timestamp for sorting if needed
-                timestamp: record.start_time ? new Date(record.start_time).getTime() : 0 // Handle potentially null start_time
+                timestamp: record.start_datetime ? new Date(record.start_datetime).getTime() : 0 // Handle potentially null start_datetime
             }))
             .sort((a, b) => a.timestamp - b.timestamp); // Sort by time
-
-            // Optional: Limit the number of points for performance if needed
-            // if (processedChartData.length > 100) { ... sampling logic ... }
-
          setChartData(processedChartData);
       }
 
@@ -249,7 +249,7 @@ export default function Dashboard() {
                 type="search"
                 placeholder="Search locations... (disabled)"
                 className="w-full rounded-md pl-8 sm:w-[240px] md:w-[260px] lg:w-[300px]"
-                disabled
+                // disabled
               />
             </div>
             {/* Time Filter Component */}
@@ -349,7 +349,7 @@ export default function Dashboard() {
                  <div className="text-2xl font-bold">
                     {congestionData?.congestion_percentage?.toFixed(1) ?? 'N/A'} %
                  </div>
-                 <p className={`text-xs font-semibold ${congestionData?.status === 'congestionado' ? 'text-red-500' : 'text-green-500'}`}>
+                 <p className={`text-xs font-semibold ${congestionData?.status === 'congestionado' || congestionData?.status === 'congested' ? 'text-red-500' : 'text-green-500'}`}>
                     {congestionData?.status ? congestionData.status.charAt(0).toUpperCase() + congestionData.status.slice(1) : 'No data'}
                  </p>
                 </>
@@ -367,7 +367,7 @@ export default function Dashboard() {
                 <CardTitle>Traffic Flow Metrics</CardTitle>
                 <CardDescription>Traffic volume and speed over the selected period</CardDescription>
               </div>
-              {/* Dropdown Menu (keep structure, disable actions for now) */}
+              {/* Dropdown Menu (disabledfor now) */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="ml-auto" disabled>
@@ -398,7 +398,7 @@ export default function Dashboard() {
               <CardTitle>Traffic Records</CardTitle>
               <CardDescription>
                 Detailed records for the selected time period.
-                {/* Displaying {trafficRecords.length} records. */}
+                Displaying {trafficRecords.length} records.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -413,6 +413,9 @@ export default function Dashboard() {
                         <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">
                             Camera ID
+                        </th>
+                        <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">
+                            Location
                         </th>
                         <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground whitespace-nowrap">
                             Start Time
@@ -440,8 +443,9 @@ export default function Dashboard() {
                             className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                         >
                             <td className="p-4 align-middle whitespace-nowrap">{record.traffic_cam_id}</td>
-                            <td className="p-4 align-middle whitespace-nowrap">{formatDisplayDateTime(record.start_time)}</td>
-                            <td className="p-4 align-middle whitespace-nowrap">{formatDisplayDateTime(record.end_time)}</td>
+                            <td className="p-4 align-middle whitespace-nowrap">{record.alias}</td>
+                            <td className="p-4 align-middle whitespace-nowrap">{formatDisplayDateTime(record.start_datetime)}</td>
+                            <td className="p-4 align-middle whitespace-nowrap">{formatDisplayDateTime(record.end_datetime)}</td>
                             <td className="p-4 align-middle text-right whitespace-nowrap">{record.vehicle_count.toLocaleString()}</td>
                             <td className="p-4 pr-6 align-middle text-right whitespace-nowrap">{record.average_speed.toFixed(1)}</td>
                         </tr>

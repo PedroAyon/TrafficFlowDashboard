@@ -16,7 +16,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon, ChevronDown } from "lucide-react";
-import type { DateRange } from "react-day-picker";
+import { DayPicker, type DateRange } from "react-day-picker";
+// import "react-day-picker/style.css";
 
 // Define filter preset types
 export type TimeFilterPreset = "hour" | "day" | "week" | "month" | "custom";
@@ -187,6 +188,8 @@ export default function TimeFilter({ onFilterChange, initialRange }: TimeFilterP
               initialFocus
               defaultMonth={currentRange?.from} // Start calendar view at selection
             />
+            {/* <DayPicker mode="range" /> */}
+
           </PopoverContent>
         </Popover>
       )}

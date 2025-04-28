@@ -145,7 +145,7 @@ import {
      */
     getCongestion: (params: CongestionParams): Promise<CongestionResponse> => {
       return request<CongestionResponse>('/congestion', {
-        traffic_cam_id: params.trafficCamId, // Convert camelCase to snake_case for API
+        traffic_cam_id: params.trafficCamId?.toString() || undefined, // Convert camelCase to snake_case for API
         start_datetime: params.startDateTime?.toISOString(), // Optional
         end_datetime: params.endDateTime?.toISOString(),     // Optional
         speed_threshold: params.speedThreshold,           // Optional
