@@ -81,9 +81,12 @@ import {
         ...options,
         headers: {
           'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning' : 'skip-browser-warning',
           ...options?.headers,
         },
       });
+
+      console.log("response", response);
   
       const data = await response.json();
   
@@ -129,6 +132,7 @@ import {
         end_datetime: params.end.toISOString(),
       });
     },
+
   
     /**
      * Fetches peak traffic hours for a given date range.
